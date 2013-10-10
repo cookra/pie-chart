@@ -35,17 +35,21 @@
                     var records = [];
                     var verdictsGroups = ["Pass","Blocked","Error","Fail","Inconclusive"]
 
-                    // State count variables
                     var passCount = 0;
                     var blockedCount = 0;
                     var errorCount = 0;
                     var failCount = 0;
                     var inconclusiveCount = 0;
+                    
+                    var getColor = {
+                        'Pass': '#009900',
+                        'Blocked': '#FF8000',
+                        'Error': '#990000', 
+                        'Fail': '#FF0000', 
+                        'Inconclusive': '#A0A0A0', 
+                    };
 
-                    // Loop through returned data and group/count by ScheduleState
                     Ext.Array.each(data, function(record) {
-                        //Perform custom actions with the data here
-                        //Calculations, etc.
 
                         verdict = record.get('Verdict');
 
@@ -86,15 +90,11 @@
                                 },
                                 tooltip: {
                                     //pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' //did not resolve {point.percentage:.1f}%
-                                    /*
-                                    formatter: function () { //was not even read
-                                                   return this.point.name + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
-                                               }
-                                }    */                                
+                                    //from http://stackoverflow.com/questions/15907496/highcharts-pie-chart-ignores-percentagedecimals-tooltip-setting-and-has-floating
                                     formatter: function () {
-                   return this.point.name + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
-               }
-
+                                       return this.point.name + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
+                                        }
+                                    //if comment out formatter, the tooltip by default will show numbers, not %
                                 },
                                 plotOptions : {
                                      pie: {
@@ -116,11 +116,33 @@
                                         type: 'pie',
                                         name: 'Verdicts',
                                         data: [
+                                            {name: 'Pass',
+                                            y: passCount,
+                                            color: getColor['Pass']
+                                            },
+                                            {name: 'Blocked',
+                                            y: blockedCount,
+                                            color: getColor['Blocked']
+                                            },
+                                            {name: 'Fail',
+                                            y: failCount,
+                                            color: getColor['Fail']
+                                            },
+                                            {name: 'Error',
+                                             y: errorCount,
+                                            color: getColor['Error']
+                                            },
+                                            {name: 'Inconclusive',
+                                             y: inconclusiveCount,
+                                            color: getColor['Inconclusive']
+                                            },
+                                            /*
                                                ['Pass', passCount],
                                                ['Blocked',blockedCount],
                                                 ['Error',errorCount],
                                                 ['Fail',failCount],
                                                 ['Inconclusive', inconclusiveCount]
+                                                */
                                               ]
                                     }
                                 ]

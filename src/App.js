@@ -29,6 +29,14 @@
                     var errorCount = 0;
                     var failCount = 0;
                     var inconclusiveCount = 0;
+                    
+                    var getColor = {
+                        'Pass': '#009900',
+                        'Blocked': '#FF8000',
+                        'Error': '#990000', 
+                        'Fail': '#FF0000', 
+                        'Inconclusive': '#A0A0A0', 
+                    };
 
                     Ext.Array.each(data, function(record) {
 
@@ -97,11 +105,26 @@
                                         type: 'pie',
                                         name: 'Verdicts',
                                         data: [
-                                               ['Pass', passCount],
-                                               ['Blocked',blockedCount],
-                                                ['Error',errorCount],
-                                                ['Fail',failCount],
-                                                ['Inconclusive', inconclusiveCount]
+                                            {name: 'Pass',
+                                            y: passCount,
+                                            color: getColor['Pass']
+                                            },
+                                            {name: 'Blocked',
+                                            y: blockedCount,
+                                            color: getColor['Blocked']
+                                            },
+                                            {name: 'Fail',
+                                            y: failCount,
+                                            color: getColor['Fail']
+                                            },
+                                            {name: 'Error',
+                                             y: errorCount,
+                                            color: getColor['Error']
+                                            },
+                                            {name: 'Inconclusive',
+                                             y: inconclusiveCount,
+                                            color: getColor['Inconclusive']
+                                            }
                                               ]
                                     }
                                 ]
